@@ -1,6 +1,8 @@
 const currDate = document.querySelector(".current-date");
 const daysTag = document.querySelector(".days");
 const icons = document.querySelectorAll(".icons span");
+const inpTask = document.querySelector(".inp-task");
+const inpBtn = document.querySelector(".inp-btn");
 
 let date = new Date();
 let currYear = date.getFullYear();
@@ -20,7 +22,6 @@ const  getMarkedDays = () =>{
         }
     }
     return markedDays;
-
 }
 let updateTaskBarHead = (event) =>{
     let taskDay = document.querySelector(".date .day");
@@ -30,7 +31,6 @@ let updateTaskBarHead = (event) =>{
     taskMonth.innerText = months[currMonth];
     taskYear.innerText = currYear;
 }
-
 let updateTasks = (event) => {
     let day = event.target.outerText;
     todayTasks = [];
@@ -69,10 +69,14 @@ const renderCalendar = () =>{
     for(let i= firstDayOfMonth;i>0;i--){
         liTag += `<li class="inactive">${lastDateofPrevMonth - i + 1}</li>`;
     }
+    let today = new Date();
     for(let i = 1;i<=lastDateofMonth;i++){
         if(markedDays.includes(i)){
             liTag += `<li class="marked">${i}</li>`;
-        }else{
+        }else if(i == today.getDate() && currMonth == today.getMonth() && currYear == today.getFullYear()){
+            liTag += `<li class="hover today">${i}</li>`;
+        }
+        else{
             liTag += `<li class="hover">${i}</li>`;
         }
     }
@@ -105,4 +109,70 @@ icons.forEach(icon => {
     })
 });
 
+let refreshTasks = (currDay) => {
+    let day = currDay;
+    todayTasks = [];
+    for(task of tasks){
+        if(task[0] == day && task[1] === currMonth && task[2] ===currYear){
+            for(let i = 3;i<task.length;i++){
+                todayTasks.push(task[i]);
+            }
+        }
+    }
+    let todayList = document.querySelector(".today-tasks");
+    todayList.innerHTML = "";
+    let tasksTag = "";
+    for(task of todayTasks){
+        tasksTag += `<div class="task">${task}</div>`;
+    }
+    todayList.innerHTML = tasksTag;
 
+    let upcomingList = document.querySelector(".upcoming-tasks");
+    upcomingList.innerHTML = "";
+    upcomingTasksTag = "";
+    for(task of tasks){
+        if(!todayTasks.includes(task) && task[0] > day && task[1] >= currMonth && task[2] >= currYear){
+            upcomingTasksTag += `<div class="task">${task[3]}</div>`;
+        }
+    }
+    upcomingList.innerHTML = upcomingTasksTag;
+}
+inpBtn.addEventListener("click",()=>{
+    let newTask = inpTask.value;
+    inpTask.value = "";
+    let taskDay = document.querySelector(".date .day");
+    let taskMonth = document.querySelector(".date .month");
+    let taskYear = document.querySelector(".date .year");
+
+
+    let newDay = parseInt(taskDay.textContent);
+    let newMonth = months.indexOf(taskMonth.textContent); 
+    let newYear= parseInt(taskYear.textContent);
+
+    if(newMonth == -1){
+        alert("Pick a date to add task");
+    }else{
+        tasks.push([newDay,newMonth,newYear,newTask]);
+        refreshTasks(newDay);
+    }
+});
+
+const placeText = ["Add a Task  ","Learn Tailwind and React","Complete Club Weekly Challenge","Math Test on Algebra"];
+
+
+let charIdx = 0;
+let egIdx = 0;
+
+function updatePlaceholder(){
+    charIdx++;
+    inpTask.placeholder = placeText[egIdx].slice(0,charIdx);
+    if(charIdx == placeText[egIdx].length){
+        egIdx++;
+        charIdx = 0;
+    }
+    if(egIdx == placeText.length){
+        egIdx = 0;
+    }
+    setTimeout(updatePlaceholder,250);
+}
+updatePlaceholder();
