@@ -211,6 +211,9 @@ header .icons span:hover {
 }
 
 @media (width <= 360px) {
+    .Add-task{
+        display: none;
+    }
     body {
         flex-direction: column;
     }
