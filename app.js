@@ -136,6 +136,7 @@ let refreshTasks = (currDay) => {
         }
     }
     upcomingList.innerHTML = upcomingTasksTag;
+    renderCalendar();
 }
 inpBtn.addEventListener("click",()=>{
     let newTask = inpTask.value;
