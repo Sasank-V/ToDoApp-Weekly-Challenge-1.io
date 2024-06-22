@@ -141,20 +141,22 @@ let refreshTasks = (currDay) => {
 inpBtn.addEventListener("click",()=>{
     let newTask = inpTask.value;
     inpTask.value = "";
-    let taskDay = document.querySelector(".date .day");
-    let taskMonth = document.querySelector(".date .month");
-    let taskYear = document.querySelector(".date .year");
+    if(newTask != ""){
+        let taskDay = document.querySelector(".date .day");
+        let taskMonth = document.querySelector(".date .month");
+        let taskYear = document.querySelector(".date .year");
 
 
-    let newDay = parseInt(taskDay.textContent);
-    let newMonth = months.indexOf(taskMonth.textContent); 
-    let newYear= parseInt(taskYear.textContent);
+        let newDay = parseInt(taskDay.textContent);
+        let newMonth = months.indexOf(taskMonth.textContent); 
+        let newYear= parseInt(taskYear.textContent);
 
-    if(newMonth == -1){
-        alert("Pick a date to add task");
-    }else{
-        tasks.push([newDay,newMonth,newYear,newTask]);
-        refreshTasks(newDay);
+        if(newMonth == -1){
+            alert("Pick a date to add task");
+        }else{
+            tasks.push([newDay,newMonth,newYear,newTask]);
+            refreshTasks(newDay);
+        }
     }
 });
 
