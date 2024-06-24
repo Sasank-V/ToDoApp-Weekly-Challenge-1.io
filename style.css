@@ -13,6 +13,9 @@ body {
     width: 36.3%;
     padding: 1.25rem;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .date {
@@ -54,16 +57,23 @@ body {
     margin-bottom: 0.625rem;
     border-radius: 1.25rem;
     font-size: 2.25rem;
+    display: flex;
+    justify-content: space-between;
 }
 
+.del{
+    cursor: pointer;
+}
 .Add-task{
     display: flex;
     justify-content: center;
     align-items: center;
     position: absolute;
-    bottom: 100px;
 }
 
+.dynamic{
+    padding-bottom: 110px;
+}
 .inp-task {
     width: 550px;
     height: 40px;
@@ -109,9 +119,9 @@ body {
 .wrapper {
     background: #fff;
     border-radius: 1rem;
-    height: fit-content;
-    margin: 2.25rem 5.75rem;
-    transform: scale(0.9);
+    margin: 2rem 5.75rem;
+    padding-left: 1.5rem;
+    transform: scale(0.85);
 }
 
 .wrapper header {
@@ -144,8 +154,8 @@ header .current-date {
 header .icons span {
     height: 5.75rem;
     width: 5.75rem;
-    color: #878787;
-    font-size: 1.75rem;
+    color: #9f9d9d;
+    font-size: 3rem;
     margin: 0 0.0625rem;
     cursor: pointer;
     text-align: center;
@@ -266,6 +276,7 @@ header .icons span:hover {
     .wrapper {
         border-radius: 1rem;
         margin: 0;
+        padding: 0;
         position: relative;
         transform: none;
         width: 95%;

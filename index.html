@@ -12,35 +12,40 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/5a66c12bef.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="task-bar">
-        <div class="date">
-            <div class="day">02</div>
-            <div class="month-year">
-                <div class="month">JULY</div>
-                <div class="year">2021</div>
-            </div>
-        </div>
-        <div class="deadlines">
-            <div class="today-deadlines">
-                <h3>TODAY'S DEADLINES</h3>
-                <div class="today-tasks">
-                    <div class="task">Complete frontend challenge</div>
-                    <div class="task">Complete UI/UX challenge</div>
+        <div class="static">
+            <div class="date">
+                <div class="day">02</div>
+                <div class="month-year">
+                    <div class="month">JULY</div>
+                    <div class="year">2021</div>
                 </div>
             </div>
-            <div class="upcoming-deadlines">
-                <h3>UPCOMING DEADLINES</h3>
-                <div class="upcoming-tasks">
-                    <div class="task">Do something</div>
-                    <div class="task">Finish personal project</div>
+            <div class="deadlines">
+                <div class="today-deadlines">
+                    <h3>TODAY'S DEADLINES</h3>
+                    <div class="today-tasks">
+                        <!-- <div class="task">Complete frontend challenge<i class="fa-regular fa-circle-xmark del"></i></div>
+                        <div class="task">Complete UI/UX challenge<i class="fa-regular fa-circle-xmark del"></i></div> -->
+                    </div>
+                </div>
+                <div class="upcoming-deadlines">
+                    <h3>UPCOMING DEADLINES</h3>
+                    <div class="upcoming-tasks">
+                        <!-- <div class="task">Do something<span><i class="fa-regular fa-circle-xmark del"></i></span></div>
+                        <div class="task">Finish personal project<i class="fa-regular fa-circle-xmark del"></i></div> -->
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="Add-task">
-            <input type="text" class="inp-task" placeholder="Add a Task">
-            <button class="inp-btn">+</button>
+        <div class="dynamic">
+            <div class="Add-task">
+                <input type="text" class="inp-task" placeholder="Add a Task">
+                <button class="inp-btn">+</button>
+            </div>
         </div>
     </div>
     <div class="calendar-container">

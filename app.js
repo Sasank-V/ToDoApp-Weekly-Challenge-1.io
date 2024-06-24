@@ -4,6 +4,15 @@ const icons = document.querySelectorAll(".icons span");
 const inpTask = document.querySelector(".inp-task");
 const inpBtn = document.querySelector(".inp-btn");
 
+const taskMonth = document.querySelector(".date .month");
+const taskYear = document.querySelector(".date .year");
+const taskDay = document.querySelector(".date .day");
+
+const todayList = document.querySelector(".today-tasks");
+const upcomingList = document.querySelector(".upcoming-tasks");
+
+
+
 let date = new Date();
 let currYear = date.getFullYear();
 let currMonth = date.getMonth();
@@ -23,16 +32,32 @@ const  getMarkedDays = () =>{
     }
     return markedDays;
 }
+
 let updateTaskBarHead = (event) =>{
-    let taskDay = document.querySelector(".date .day");
-    let taskMonth = document.querySelector(".date .month");
-    let taskYear = document.querySelector(".date .year");
-    taskDay.innerText = event.target.outerText;
-    taskMonth.innerText = months[currMonth];
-    taskYear.innerText = currYear;
+    let day = "";
+    let mon = "";
+    let year = "";
+    try{
+        day = event.target.outerText;
+        mon = months[currMonth];
+        year = currYear;
+    }catch{
+        day = date.getDate();
+        mon = months[date.getMonth()];
+        year  = date.getFullYear();
+    }
+    taskDay.innerText = day;
+    taskMonth.innerText = mon;
+    taskYear.innerText = year;
 }
+updateTaskBarHead();
 let updateTasks = (event) => {
-    let day = event.target.outerText;
+    let day = "";
+    try{
+        day = event.target.outerText; 
+    }catch{
+        day = event;
+    }
     todayTasks = [];
     for(task of tasks){
         if(task[0] == day && task[1] === currMonth && task[2] ===currYear){
@@ -41,29 +66,52 @@ let updateTasks = (event) => {
             }
         }
     }
-    let todayList = document.querySelector(".today-tasks");
+
     todayList.innerHTML = "";
     let tasksTag = "";
     for(task of todayTasks){
-        tasksTag += `<div class="task">${task}</div>`;
+        tasksTag += `<div class="task">${task}<i class="fa-regular fa-circle-xmark del"></i></div>`;
+    }
+    if(todayTasks.length == 0){
+        tasksTag = '<div class="task">No tasks today</div>';
     }
     todayList.innerHTML = tasksTag;
 
-    let upcomingList = document.querySelector(".upcoming-tasks");
     upcomingList.innerHTML = "";
     upcomingTasksTag = "";
     for(task of tasks){
         if(!todayTasks.includes(task) && task[0] > day && task[1] >= currMonth && task[2] >= currYear){
-            upcomingTasksTag += `<div class="task">${task[3]}</div>`;
+            upcomingTasksTag += `<div class="task">${task[3]}<i class="fa-regular fa-circle-xmark del"></i></div>`;
         }
     }
+    if(upcomingTasksTag.length == 0){
+        upcomingTasksTag = '<div class="task">No upcoming tasks</div>';
+    }
     upcomingList.innerHTML = upcomingTasksTag;
+
+    let delBtns = document.querySelectorAll(".del");
+    delBtns.forEach(del =>{
+        del.addEventListener("click",() => {
+            let delTask = del.parentElement.innerText;
+            for(task of tasks){
+                if(task[3] === delTask){
+                    tasks.splice(tasks.indexOf(task),1);
+                    console.log(tasks);
+                    break;
+                }
+            }
+            del.parentElement.remove();
+            renderCalendar();
+        });
+    });
 }
+updateTasks(new Date().getDate());
 const renderCalendar = () =>{
     let firstDayOfMonth = new Date(currYear,currMonth,1).getDay();
     let lastDateofMonth = new Date(currYear,currMonth+1,0).getDate();
     let lastDayofMonth = new Date(currYear,currMonth,lastDateofMonth).getDay();
     let lastDateofPrevMonth = new Date(currYear,currMonth,0).getDate();
+    
     let liTag = "";
     let markedDays = getMarkedDays();
     for(let i= firstDayOfMonth;i>0;i--){
@@ -106,47 +154,18 @@ icons.forEach(icon => {
             date = new Date();
         }
         renderCalendar();
-    })
+    });
 });
 
 let refreshTasks = (currDay) => {
-    let day = currDay;
-    todayTasks = [];
-    for(task of tasks){
-        if(task[0] == day && task[1] === currMonth && task[2] ===currYear){
-            for(let i = 3;i<task.length;i++){
-                todayTasks.push(task[i]);
-            }
-        }
-    }
-    let todayList = document.querySelector(".today-tasks");
-    todayList.innerHTML = "";
-    let tasksTag = "";
-    for(task of todayTasks){
-        tasksTag += `<div class="task">${task}</div>`;
-    }
-    todayList.innerHTML = tasksTag;
-
-    let upcomingList = document.querySelector(".upcoming-tasks");
-    upcomingList.innerHTML = "";
-    upcomingTasksTag = "";
-    for(task of tasks){
-        if(!todayTasks.includes(task) && task[0] > day && task[1] >= currMonth && task[2] >= currYear){
-            upcomingTasksTag += `<div class="task">${task[3]}</div>`;
-        }
-    }
-    upcomingList.innerHTML = upcomingTasksTag;
+    updateTasks(currDay);
     renderCalendar();
-}
+};
+
 inpBtn.addEventListener("click",()=>{
     let newTask = inpTask.value;
     inpTask.value = "";
     if(newTask != ""){
-        let taskDay = document.querySelector(".date .day");
-        let taskMonth = document.querySelector(".date .month");
-        let taskYear = document.querySelector(".date .year");
-
-
         let newDay = parseInt(taskDay.textContent);
         let newMonth = months.indexOf(taskMonth.textContent); 
         let newYear= parseInt(taskYear.textContent);
@@ -179,3 +198,4 @@ function updatePlaceholder(){
     setTimeout(updatePlaceholder,250);
 }
 updatePlaceholder();
+
