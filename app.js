@@ -96,7 +96,6 @@ let updateTasks = (event) => {
             for(task of tasks){
                 if(task[3] === delTask){
                     tasks.splice(tasks.indexOf(task),1);
-                    console.log(tasks);
                     break;
                 }
             }
